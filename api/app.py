@@ -21,7 +21,7 @@ def chat():
     app.logger.debug(f"User input: {user_input}")
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",  # Update to use GPT-4o model
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": user_input}
