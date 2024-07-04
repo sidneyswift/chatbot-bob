@@ -1,10 +1,12 @@
 from flask import Flask, request, render_template, jsonify
 from openai import OpenAI
 import logging
+import os
 
 app = Flask(__name__)
 
-client = OpenAI(api_key='sk-proj-h0c2oGEfefX10VuPKsxUT3BlbkFJCibBAMprWdCo2oGdk0FV')
+api_key = os.environ.get('OPENAI_API_KEY')
+client = OpenAI(api_key=api_key)
 
 # Set up basic logging
 logging.basicConfig(level=logging.DEBUG)
@@ -19,7 +21,7 @@ def chat():
     app.logger.debug(f"User input: {user_input}")
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o",  # Update to use GPT-4o model
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": user_input}
