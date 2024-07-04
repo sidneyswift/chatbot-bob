@@ -6,49 +6,126 @@
     <title>Chat with LLM</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Inter Tight', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            background-color: #121212;
+        body {
+            font-family: 'Inter Tight', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #121212, #1d1d1d);
             color: #fff;
         }
-        .chat-container { 
-            max-width: 600px; 
-            width: 100%; 
-            margin: auto; 
-            background-color: #333; 
-            padding: 20px; 
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            width: 100%;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
+        }
+        .chat-box {
+            flex: 1;
+            border: 1px solid #444;
+            padding: 10px;
+            height: 400px;
+            overflow-y: auto;
+            background-color: #222;
+            color: #fff;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            font-size: 16px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            scrollbar-width: thin;
+            scrollbar-color: #555 #222;
         }
-        .chat-box { 
-            border: 1px solid #444; 
-            padding: 10px; 
-            height: 400px; 
-            overflow-y: scroll; 
-            background-color: #222; 
-            color: #0f0;
+        .chat-box::-webkit-scrollbar {
+            width: 8px;
         }
-        .chat-input { 
-            width: calc(100% - 20px); 
-            padding: 10px; 
-            margin-top: 10px; 
-            background-color: #555; 
-            border: none; 
-            color: #fff; 
-            border-radius: 5px;
+        .chat-box::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 8px;
+        }
+        .chat-input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 15px;
+            background-color: #444;
+            border: none;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .chat-input:focus {
+            outline: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .send-button {
+            background-color: #0a84ff;
+            border: none;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .send-button:hover {
+            background-color: #005bb5;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .message {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .user-message {
+            background-color: #0f0;
+            color: #000;
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .user-message img {
+            margin-left: 10px;
+            margin-right: 0;
+        }
+        .assistant-message {
+            background-color: #0ff;
+            color: #000;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
         <div class="chat-box" id="chat-box"></div>
-        <input type="text" id="chat-input" class="chat-input" placeholder="Type a message..." onkeydown="if (event.key === 'Enter') sendMessage()">
+        <div class="chat-input-container">
+            <input type="text" id="chat-input" class="chat-input" placeholder="Type a message..." onkeydown="if (event.key === 'Enter') sendMessage()">
+            <button class="send-button" onclick="sendMessage()">Send</button>
+        </div>
     </div>
     <script>
         async function sendMessage() {
@@ -58,7 +135,8 @@
             if (!message) return;
             
             const userMessage = document.createElement('div');
-            userMessage.textContent = 'You: ' + message;
+            userMessage.classList.add('message', 'user-message');
+            userMessage.innerHTML = `<img src="https://via.placeholder.com/40?text=U" alt="User Avatar"><div>You: ${message}</div>`;
             chatBox.appendChild(userMessage);
             
             input.value = '';
@@ -75,7 +153,8 @@
                 const data = await response.json();
                 
                 const assistantMessage = document.createElement('div');
-                assistantMessage.textContent = 'Assistant: ' + data.message;
+                assistantMessage.classList.add('message', 'assistant-message');
+                assistantMessage.innerHTML = `<img src="https://via.placeholder.com/40?text=A" alt="Assistant Avatar"><div>Assistant: ${data.message}</div>`;
                 chatBox.appendChild(assistantMessage);
                 
                 chatBox.scrollTop = chatBox.scrollHeight;
