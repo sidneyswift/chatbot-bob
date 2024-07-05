@@ -3,7 +3,7 @@ from openai import OpenAI
 import logging
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 api_key = os.environ.get('OPENAI_API_KEY')
 if not api_key:
@@ -27,7 +27,7 @@ def chat():
         return jsonify({'error': 'No message provided'}), 400
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": user_input}
