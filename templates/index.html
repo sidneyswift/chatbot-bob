@@ -6,6 +6,7 @@
     <title>Chat with LLM</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Main styling for the body */
         body {
             font-family: 'Inter Tight', sans-serif;
             margin: 0;
@@ -17,6 +18,7 @@
             background: linear-gradient(135deg, #121212, #1d1d1d);
             color: #fff;
         }
+        /* Styling for the chat container */
         .chat-container {
             display: flex;
             flex-direction: column;
@@ -28,6 +30,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
+        /* Styling for the chat box */
         .chat-box {
             flex: 1;
             border: none;
@@ -48,16 +51,18 @@
             background: #555;
             border-radius: 8px;
         }
+        /* Styling for the chat input container */
         .chat-input-container {
             display: flex;
             margin-top: 10px;
             background-color: transparent;
         }
+        /* Styling for the chat input */
         .chat-input {
             flex: 1;
-            padding: 8px;
-            background-color: #222;
-            border: 1px solid #ccc; /* Added border */
+            padding: 15px;
+            background-color: #444;
+            border: none;
             color: #fff;
             border-radius: 10px;
             font-size: 16px;
@@ -69,6 +74,7 @@
             outline: none;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
+        /* Styling for the send button */
         .send-button {
             background-color: transparent;
             border: none;
@@ -87,6 +93,7 @@
         .send-button:hover {
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
+        /* Styling for the chat messages */
         .message {
             display: flex;
             align-items: flex-start;
@@ -101,6 +108,7 @@
             border-radius: 50%;
             margin-right: 10px;
         }
+        /* Styling for user messages */
         .user-message {
             background-color: #333;
             color: #fff;
@@ -108,15 +116,17 @@
             flex-direction: row-reverse;
             display: inline-flex;
             max-width: 80%;
+            justify-content: flex-end;
         }
-        
         .user-message div {
             background-color: #333;
             padding: 10px;
             border-radius: 10px;
             word-wrap: break-word;
             display: inline-block;
+            align-self: flex-end;
         }
+        /* Styling for assistant messages */
         .assistant-message {
             color: #fff;
         }
@@ -125,6 +135,12 @@
         }
         .assistant-message div {
             max-width: 80%;
+        }
+        /* Styling for typing indicator */
+        .typing-indicator {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 10px;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -155,6 +171,13 @@
             chatBox.appendChild(userMessage);
             
             input.value = '';
+
+            // Add typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('typing-indicator');
+            typingIndicator.innerText = 'Assistant is thinking...';
+            chatBox.appendChild(typingIndicator);
+            chatBox.scrollTop = chatBox.scrollHeight;
             
             try {
                 const response = await fetch('/chat', {
@@ -167,6 +190,9 @@
                 
                 const data = await response.json();
                 
+                // Remove typing indicator
+                chatBox.removeChild(typingIndicator);
+
                 const assistantMessage = document.createElement('div');
                 assistantMessage.classList.add('message', 'assistant-message');
                 assistantMessage.innerHTML = `<img src="https://i.imgur.com/WOwXiLX.png" alt="Assistant Icon"><div>${data.message}</div>`;
@@ -175,6 +201,7 @@
                 chatBox.scrollTop = chatBox.scrollHeight;
             } catch (error) {
                 console.error('Error:', error);
+                chatBox.removeChild(typingIndicator);
             }
         }
     </script>
