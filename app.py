@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, send_from_directory
+from flask import Flask, request, render_template, jsonify
 import os
 import logging
 
@@ -35,11 +35,6 @@ def chat():
     except Exception as e:
         app.logger.error(f"Error: {e}")
         return jsonify({'error': str(e)}), 500
-
-# Route for serving static files
-@app.route('/static/<path:path>', methods=['GET'])
-def serve_static(path):
-    return send_from_directory('static', path)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
