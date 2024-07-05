@@ -22,26 +22,24 @@
             flex-direction: column;
             max-width: 600px;
             width: 100%;
-            background-color: #333;
+            height: 80%;
+            background-color: transparent;
             padding: 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid #444;
         }
         .chat-box {
             flex: 1;
-            border: 1px solid #444;
+            border: none;
             padding: 10px;
-            height: 400px;
             overflow-y: auto;
-            background-color: #222;
+            background-color: transparent;
             color: #fff;
-            border-radius: 10px;
             font-size: 16px;
             line-height: 1.5;
             word-wrap: break-word;
             scrollbar-width: thin;
-            scrollbar-color: #555 #222;
+            scrollbar-color: #555 transparent;
         }
         .chat-box::-webkit-scrollbar {
             width: 8px;
@@ -53,6 +51,7 @@
         .chat-input-container {
             display: flex;
             margin-top: 10px;
+            background-color: transparent;
         }
         .chat-input {
             flex: 1;
@@ -74,15 +73,18 @@
             background-color: transparent;
             border: none;
             color: #fff;
-            padding: 15px 20px;
+            padding: 15px;
             border-radius: 10px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s, box-shadow 0.3s;
+            transition: box-shadow 0.3s;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+        .send-button img {
+            width: 20px;
+            height: 20px;
+        }
         .send-button:hover {
-            background-color: transparent;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         .message {
@@ -92,11 +94,10 @@
             padding: 10px;
             border-radius: 10px;
             animation: fadeIn 0.5s ease-in-out;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         .message img {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             margin-right: 10px;
         }
@@ -106,9 +107,20 @@
             align-self: flex-end;
             flex-direction: row-reverse;
         }
-        .user-message div, .assistant-message div {
-            max-width: calc(100% - 60px);
-            word-wrap: break-word;
+        .user-message div {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        .assistant-message {
+            color: #fff;
+        }
+        .assistant-message img {
+            margin-left: 10px;
+        }
+        .assistant-message div {
+            max-width: 80%;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -122,7 +134,7 @@
         <div class="chat-input-container">
             <input type="text" id="chat-input" class="chat-input" placeholder="Type a message..." onkeydown="if (event.key === 'Enter') sendMessage()">
             <button class="send-button" onclick="sendMessage()">
-                <img src="logos/icon.svg" alt="Send Icon">
+                <img src="/path/to/icon.svg" alt="Send">
             </button>
         </div>
     </div>
@@ -153,7 +165,7 @@
                 
                 const assistantMessage = document.createElement('div');
                 assistantMessage.classList.add('message', 'assistant-message');
-                assistantMessage.innerHTML = `<img src="logos/icon.svg" alt="Assistant Icon"><div>${data.message}</div>`;
+                assistantMessage.innerHTML = `<img src="/chatbot-bob/public/logos/icon.svg" alt="Assistant Icon"><div>${data.message}</div>`;
                 chatBox.appendChild(assistantMessage);
                 
                 chatBox.scrollTop = chatBox.scrollHeight;
