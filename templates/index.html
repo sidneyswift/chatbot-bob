@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with LLM</title>
+    <title>Chat with SyncStream</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Main styling for the body */
@@ -60,9 +60,9 @@
         /* Styling for the chat input */
         .chat-input {
             flex: 1;
-            padding: 15px;
-            background-color: #444;
-            border: none;
+            padding: 8px;
+            background-color: #222;
+            border: 1px solid #ccc;
             color: #fff;
             border-radius: 10px;
             font-size: 16px;
@@ -114,16 +114,18 @@
             color: #fff;
             align-self: flex-end;
             flex-direction: row-reverse;
-            display: inline-flex;
-            max-width: 80%;
+            display: flex;
             justify-content: flex-end;
+            width: 100%;
         }
         .user-message div {
             background-color: #333;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 8px;
+            border-radius: 15px;
+            max-width: 80%;
             word-wrap: break-word;
             display: inline-block;
+            text-align: right;
             align-self: flex-end;
         }
         /* Styling for assistant messages */
@@ -138,9 +140,23 @@
         }
         /* Styling for typing indicator */
         .typing-indicator {
-            font-size: 14px;
-            color: #aaa;
-            margin-top: 10px;
+            font-size: 14px; /* Sets the font size to 14px */
+            color: #aaa; /* Sets the text color to a light grey */
+            margin-top: 10px; /* Adds some space above the indicator */
+            animation: reflection 2s infinite; /* Applies the reflection animation directly to the text */
+        }
+        
+        /* Keyframe animation for reflection effect */
+        @keyframes reflection {
+            0% {
+                opacity: 0.2; /* Semi-transparent at the start */
+            }
+            50% {
+                opacity: 1; /* Fully opaque in the middle */
+            }
+            100% {
+                opacity: 0.2; /* Semi-transparent again at the end */
+            }
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -175,7 +191,7 @@
             // Add typing indicator
             const typingIndicator = document.createElement('div');
             typingIndicator.classList.add('typing-indicator');
-            typingIndicator.innerText = 'Assistant is thinking...';
+            typingIndicator.innerText = 'SyncStream is thinking...';
             chatBox.appendChild(typingIndicator);
             chatBox.scrollTop = chatBox.scrollHeight;
             
