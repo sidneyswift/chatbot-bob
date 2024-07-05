@@ -1,12 +1,14 @@
 from flask import Flask, request, render_template, jsonify
-import os
+from openai import OpenAI
 import logging
+import os
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__)
 
 api_key = os.environ.get('OPENAI_API_KEY')
 if not api_key:
     app.logger.error('OPENAI_API_KEY environment variable not set')
+client = OpenAI(api_key=api_key)
 
 # Set up basic logging
 logging.basicConfig(level=logging.DEBUG)
@@ -24,13 +26,15 @@ def chat():
         app.logger.error('No message provided in request')
         return jsonify({'error': 'No message provided'}), 400
     try:
-        # Replace this with the correct OpenAI API call
-        response = {
-            "choices": [
-                {"message": {"content": "You are a helpful assistant."}}
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_input}
             ]
-        }
-        message = response['choices'][0]['message']['content'].strip()
+        )
+        app.logger.debug(f"OpenAI response: {response}")
+        message = response.choices[0].message.content.strip()
         return jsonify({'message': message})
     except Exception as e:
         app.logger.error(f"Error: {e}")
