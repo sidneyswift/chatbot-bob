@@ -134,11 +134,13 @@
         <div class="chat-input-container">
             <input type="text" id="chat-input" class="chat-input" placeholder="Type a message..." onkeydown="if (event.key === 'Enter') sendMessage()">
             <button class="send-button" onclick="sendMessage()">
-                <img src="/path/to/icon.svg" alt="Send">
+                <img src="/chatbot-bob/public/logos/icon.svg" alt="Send">
             </button>
         </div>
     </div>
     <script>
+        console.log("Path to icon: /chatbot-bob/public/logos/icon.svg");
+
         async function sendMessage() {
             const input = document.getElementById('chat-input');
             const chatBox = document.getElementById('chat-box');
