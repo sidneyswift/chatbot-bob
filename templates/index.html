@@ -113,16 +113,18 @@
             background-color: #333;
             color: #fff;
             align-self: flex-end;
-            flex-direction: row-reverse;
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
+            display: inline-flex;
+            border-radius: 10px;
+            padding: 10px;
+            max-width: 50%;
+            word-wrap: break-word;
+            margin-left: auto;
         }
         .user-message div {
             background-color: #333;
-            padding: 8px;
+            padding: 10px;
             border-radius: 15px;
-            max-width: 80%;
+            max-width: 50%;
             word-wrap: break-word;
             display: inline-block;
             text-align: right;
@@ -144,19 +146,6 @@
             color: #aaa; /* Sets the text color to a light grey */
             margin-top: 10px; /* Adds some space above the indicator */
             animation: reflection 2s infinite; /* Applies the reflection animation directly to the text */
-        }
-        
-        /* Keyframe animation for reflection effect */
-        @keyframes reflection {
-            0% {
-                opacity: 0.2; /* Semi-transparent at the start */
-            }
-            50% {
-                opacity: 1; /* Fully opaque in the middle */
-            }
-            100% {
-                opacity: 0.2; /* Semi-transparent again at the end */
-            }
         }
         @keyframes fadeIn {
             from { opacity: 0; }
