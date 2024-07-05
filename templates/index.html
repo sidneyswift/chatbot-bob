@@ -32,9 +32,8 @@
         }
         /* Styling for the chat box */
         .chat-box {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; /* Ensures children are aligned to the right */
+            flex: 1;
+            border: none;
             padding: 10px;
             overflow-y: auto;
             background-color: transparent;
@@ -45,7 +44,6 @@
             scrollbar-width: thin;
             scrollbar-color: #555 transparent;
         }
-        
         .chat-box::-webkit-scrollbar {
             width: 8px;
         }
@@ -118,7 +116,7 @@
             display: flex;
             border-radius: 10px;
             padding: 10px;
-            max-width: 100%;
+            max-width: 80%;
             word-wrap: break-word;
             margin-left: auto;
             justify-content: flex-end;
@@ -128,7 +126,7 @@
             background-color: #333;
             padding: 8px;
             border-radius: 15px;
-            max-width: 100%;
+            max-width: fit-content;
             word-wrap: break-word;
             display: inline-block;
             text-align: right;
