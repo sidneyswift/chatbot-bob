@@ -169,53 +169,52 @@
             </button>
         </div>
     </div>
-</div>
-<script>
-    async function sendMessage() {
-        const input = document.getElementById('chat-input');
-        const chatBox = document.getElementById('chat-box');
-        const message = input.value;
-        if (!message) return;
-        
-        const userMessage = document.createElement('div');
-        userMessage.classList.add('message', 'user-message');
-        userMessage.innerHTML = `<div>${message}</div>`;
-        chatBox.appendChild(userMessage);
-        
-        input.value = '';
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const chatBox = document.getElementById('chat-box');
+            const message = input.value;
+            if (!message) return;
+            
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user-message');
+            userMessage.innerHTML = `<div> ${message}</div>`;
+            chatBox.appendChild(userMessage);
+            
+            input.value = '';
 
-        // Add typing indicator
-        const typingIndicator = document.createElement('div');
-        typingIndicator.classList.add('typing-indicator');
-        typingIndicator.innerText = 'SyncStream is thinking...';
-        chatBox.appendChild(typingIndicator);
-        chatBox.scrollTop = chatBox.scrollHeight;
-        
-        try {
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message })
-            });
-            
-            const data = await response.json();
-            
-            // Remove typing indicator
-            chatBox.removeChild(typingIndicator);
-
-            const assistantMessage = document.createElement('div');
-            assistantMessage.classList.add('message', 'assistant-message');
-            assistantMessage.innerHTML = `<img src="https://i.imgur.com/WOwXiLX.png" alt="Assistant Icon"><div>${marked(data.message)}</div>`;
-            chatBox.appendChild(assistantMessage);
-            
+            // Add typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('typing-indicator');
+            typingIndicator.innerText = 'SyncStream is thinking...';
+            chatBox.appendChild(typingIndicator);
             chatBox.scrollTop = chatBox.scrollHeight;
-        } catch (error) {
-            console.error('Error:', error);
-            chatBox.removeChild(typingIndicator);
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+                
+                const data = await response.json();
+                
+                // Remove typing indicator
+                chatBox.removeChild(typingIndicator);
+
+                const assistantMessage = document.createElement('div');
+                assistantMessage.classList.add('message', 'assistant-message');
+                assistantMessage.innerHTML = `<img src="https://i.imgur.com/WOwXiLX.png" alt="Assistant Icon"><div>${marked(data.message)}</div>`;
+                chatBox.appendChild(assistantMessage);
+                
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (error) {
+                console.error('Error:', error);
+                chatBox.removeChild(typingIndicator);
+            }
         }
-    }
-</script>
+    </script>
 </body>
 </html>
