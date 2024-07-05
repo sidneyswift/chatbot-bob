@@ -113,10 +113,12 @@ def chat():
                         response_text += text
                     return response_text
 
+        event_handler = EventHandler()
+
         with client.beta.threads.runs.stream(
                 thread_id=thread.id,
                 assistant_id=assistant.id,
-                event_handler=EventHandler()
+                event_handler=event_handler
         ) as stream:
             response_text = stream.until_done()
 
