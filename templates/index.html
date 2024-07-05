@@ -22,18 +22,21 @@
             flex-direction: column;
             max-width: 600px;
             width: 100%;
-            border: 1px solid #fff;
+            background-color: #333;
+            padding: 20px;
             border-radius: 20px;
-            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
         }
         .chat-box {
             flex: 1;
-            border: none;
+            border: 1px solid #444;
             padding: 10px;
             height: 400px;
             overflow-y: auto;
             background-color: #222;
             color: #fff;
+            border-radius: 10px;
             font-size: 16px;
             line-height: 1.5;
             word-wrap: break-word;
@@ -49,9 +52,7 @@
         }
         .chat-input-container {
             display: flex;
-            padding: 10px;
-            background-color: #333;
-            border-top: 1px solid #444;
+            margin-top: 10px;
         }
         .chat-input {
             flex: 1;
@@ -72,52 +73,41 @@
         .send-button {
             background-color: transparent;
             border: none;
-            padding: 15px;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s, box-shadow 0.3s;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        .send-button img {
-            width: 20px;
-            height: 20px;
-        }
         .send-button:hover {
-            background-color: #555;
+            background-color: transparent;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         .message {
             display: flex;
             align-items: flex-start;
             margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
             animation: fadeIn 0.5s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         .message img {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             margin-right: 10px;
         }
         .user-message {
-            background-color: #444;
+            background-color: #333;
             color: #fff;
-            border-radius: 10px;
-            padding: 10px;
             align-self: flex-end;
-            max-width: 60%;
-            margin-left: auto;
-        }
-        .assistant-message {
-            color: #fff;
-            display: flex;
-            align-items: flex-start;
-        }
-        .assistant-message img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
+            flex-direction: row-reverse;
         }
         .user-message div, .assistant-message div {
-            max-width: calc(100% - 40px);
+            max-width: calc(100% - 60px);
             word-wrap: break-word;
         }
         @keyframes fadeIn {
@@ -132,25 +122,24 @@
         <div class="chat-input-container">
             <input type="text" id="chat-input" class="chat-input" placeholder="Type a message..." onkeydown="if (event.key === 'Enter') sendMessage()">
             <button class="send-button" onclick="sendMessage()">
-                <img src="/logos/arrow.svg" alt="Send">
+                <img src="logos/icon.svg" alt="Send Icon">
             </button>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         async function sendMessage() {
             const input = document.getElementById('chat-input');
             const chatBox = document.getElementById('chat-box');
             const message = input.value;
             if (!message) return;
-
+            
             const userMessage = document.createElement('div');
             userMessage.classList.add('message', 'user-message');
-            userMessage.innerHTML = `<div>${message}</div>`;
+            userMessage.innerHTML = `<div>You: ${message}</div>`;
             chatBox.appendChild(userMessage);
-
+            
             input.value = '';
-
+            
             try {
                 const response = await fetch('/chat', {
                     method: 'POST',
@@ -159,37 +148,18 @@
                     },
                     body: JSON.stringify({ message })
                 });
-
+                
                 const data = await response.json();
-
+                
                 const assistantMessage = document.createElement('div');
                 assistantMessage.classList.add('message', 'assistant-message');
-                assistantMessage.innerHTML = `<img src="/logos/icon.svg" alt="Assistant Avatar"><div>${marked(data.message)}</div>`;
+                assistantMessage.innerHTML = `<img src="logos/icon.svg" alt="Assistant Icon"><div>${data.message}</div>`;
                 chatBox.appendChild(assistantMessage);
-
-                typewriterEffect(assistantMessage.querySelector('div'));
-
+                
                 chatBox.scrollTop = chatBox.scrollHeight;
             } catch (error) {
                 console.error('Error:', error);
             }
-        }
-
-        function typewriterEffect(element) {
-            const text = element.innerText;
-            element.innerHTML = '';
-            let i = 0;
-            const speed = 10; // Adjust typing speed here
-
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-
-            type();
         }
     </script>
 </body>
