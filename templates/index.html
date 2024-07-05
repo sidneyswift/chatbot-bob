@@ -55,7 +55,7 @@
         }
         .chat-input {
             flex: 1;
-            padding: 10px;
+            padding: 8px;
             background-color: #222;
             border: 1px solid #ccc; /* Added border */
             color: #fff;
@@ -106,12 +106,16 @@
             color: #fff;
             align-self: flex-end;
             flex-direction: row-reverse;
+            display: inline-flex;
+            max-width: 80%;
         }
+        
         .user-message div {
             background-color: #333;
             padding: 10px;
             border-radius: 10px;
-            max-width: 80%;
+            word-wrap: break-word;
+            display: inline-block;
         }
         .assistant-message {
             color: #fff;
