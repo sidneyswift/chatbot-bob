@@ -92,6 +92,7 @@
             padding: 10px;
             border-radius: 10px;
             animation: fadeIn 0.5s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         .message img {
             width: 40px;
@@ -100,8 +101,8 @@
             margin-right: 10px;
         }
         .user-message {
-            background-color: #0f0;
-            color: #000;
+            background-color: #333;
+            color: #fff;
             align-self: flex-end;
             flex-direction: row-reverse;
         }
@@ -110,8 +111,12 @@
             margin-right: 0;
         }
         .assistant-message {
-            background-color: #0ff;
-            color: #000;
+            background-color: #444;
+            color: #fff;
+        }
+        .user-message div, .assistant-message div {
+            max-width: calc(100% - 60px);
+            word-wrap: break-word;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
