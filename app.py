@@ -76,15 +76,21 @@ def chat():
         return jsonify({'error': 'No message provided'}), 400
 
     try:
+        # Create a new thread for the conversation
         thread = client.beta.threads.create()
+        app.logger.debug(f"Thread created: {thread.id}")
+
+        # Add user message to the thread
         message = client.beta.threads.messages.create(
             thread_id=thread.id,
             role="user",
             content=user_input,
         )
+        app.logger.debug(f"Message added to thread: {message.id}")
 
         class EventHandler(AssistantEventHandler):
             def __init__(self):
+                super().__init__()
                 self.response_text = ""
 
             @override
@@ -117,9 +123,10 @@ def chat():
                     for text in stream.text_deltas:
                         app.logger.debug(f"Text delta received: {text}")
                         self.response_text += text
-                    return self.response_text
 
         event_handler = EventHandler()
+
+        # Start a new run with the assistant and stream the response
         with client.beta.threads.runs.stream(
                 thread_id=thread.id,
                 assistant_id=assistant.id,
