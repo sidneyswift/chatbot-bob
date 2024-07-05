@@ -134,7 +134,7 @@
         <div class="chat-input-container">
             <input type="text" id="chat-input" class="chat-input" placeholder="Type a message..." onkeydown="if (event.key === 'Enter') sendMessage()">
             <button class="send-button" onclick="sendMessage()">
-                <img src="https://raw.githubusercontent.com/sidneyswift/chatbot-bob/main/static/logos/arrow.svg" alt="Send">
+                <img src="https://i.imgur.com/JIHaBXJ.png" alt="Send">
             </button>
         </div>
     </div>
@@ -165,7 +165,7 @@
                 
                 const assistantMessage = document.createElement('div');
                 assistantMessage.classList.add('message', 'assistant-message');
-                assistantMessage.innerHTML = `<img src="https://raw.githubusercontent.com/sidneyswift/chatbot-bob/main/static/logos/icon.svg" alt="Assistant Icon"><div>${data.message}</div>`;
+                assistantMessage.innerHTML = `<img src="https://i.imgur.com/WOwXiLX.png" alt="Assistant Icon"><div>${data.message}</div>`;
                 chatBox.appendChild(assistantMessage);
                 
                 chatBox.scrollTop = chatBox.scrollHeight;
