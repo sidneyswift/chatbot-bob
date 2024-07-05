@@ -111,14 +111,13 @@ def chat():
                     response_text = ""
                     for text in stream.text_deltas:
                         response_text += text
+                    app.logger.debug(f"Assistant response: {response_text}")
                     return response_text
-
-        event_handler = EventHandler()
 
         with client.beta.threads.runs.stream(
                 thread_id=thread.id,
                 assistant_id=assistant.id,
-                event_handler=event_handler
+                event_handler=EventHandler()
         ) as stream:
             response_text = stream.until_done()
 
