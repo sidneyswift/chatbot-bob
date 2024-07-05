@@ -27,6 +27,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid #444;
+            transition: all 0.3s ease-in-out;
         }
         .chat-box {
             flex: 1;
@@ -42,6 +43,7 @@
             word-wrap: break-word;
             scrollbar-width: thin;
             scrollbar-color: #555 #222;
+            animation: fadeIn 0.5s ease-in-out;
         }
         .chat-box::-webkit-scrollbar {
             width: 8px;
@@ -93,6 +95,10 @@
             border-radius: 10px;
             animation: fadeIn 0.5s ease-in-out;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+        .message:hover {
+            transform: scale(1.02);
         }
         .message img {
             width: 40px;
