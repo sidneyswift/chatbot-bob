@@ -138,14 +138,14 @@
             const chatBox = document.getElementById('chat-box');
             const message = input.value;
             if (!message) return;
-            
+
             const userMessage = document.createElement('div');
             userMessage.classList.add('message', 'user-message');
             userMessage.innerHTML = `<img src="https://via.placeholder.com/40?text=U" alt="User Avatar"><div>You: ${message}</div>`;
             chatBox.appendChild(userMessage);
-            
+
             input.value = '';
-            
+
             try {
                 const response = await fetch('/chat', {
                     method: 'POST',
@@ -154,18 +154,33 @@
                     },
                     body: JSON.stringify({ message })
                 });
-                
+
                 const data = await response.json();
-                
+
                 const assistantMessage = document.createElement('div');
                 assistantMessage.classList.add('message', 'assistant-message');
-                assistantMessage.innerHTML = `<img src="https://via.placeholder.com/40?text=A" alt="Assistant Avatar"><div>Assistant: ${data.message}</div>`;
+                assistantMessage.innerHTML = `<img src="https://via.placeholder.com/40?text=A" alt="Assistant Avatar"><div id="assistant-message-text"></div>`;
                 chatBox.appendChild(assistantMessage);
-                
+
+                typeWriterEffect(data.message, document.getElementById('assistant-message-text'));
+
                 chatBox.scrollTop = chatBox.scrollHeight;
             } catch (error) {
                 console.error('Error:', error);
             }
+        }
+
+        function typeWriterEffect(text, element) {
+            let i = 0;
+            const speed = 10; // Adjust speed to control the typing effect
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
         }
     </script>
 </body>
