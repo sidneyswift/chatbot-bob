@@ -89,14 +89,17 @@ def chat():
 
             @override
             def on_event(self, event):
+                app.logger.debug(f"Event received: {event.event}")
                 if event.event == 'thread.run.requires_action':
                     run_id = event.data.id
+                    app.logger.debug(f"Run ID: {run_id}")
                     self.handle_requires_action(event.data, run_id)
 
             def handle_requires_action(self, data, run_id):
                 tool_outputs = []
 
                 for tool in data.required_action.submit_tool_outputs.tool_calls:
+                    app.logger.debug(f"Tool call received: {tool.function.name}")
                     if tool.function.name == "get_current_temperature":
                         tool_outputs.append({"tool_call_id": tool.id, "output": "57"})
                     elif tool.function.name == "get_rain_probability":
@@ -112,6 +115,7 @@ def chat():
                         event_handler=self,
                 ) as stream:
                     for text in stream.text_deltas:
+                        app.logger.debug(f"Text delta received: {text}")
                         self.response_text += text
                     return self.response_text
 
