@@ -123,7 +123,6 @@
             margin-left: auto;
             justify-content: flex-end;
         }
-
         .user-message div {
             background-color: #333;
             padding: 8px;
@@ -205,7 +204,7 @@
 
                 const assistantMessage = document.createElement('div');
                 assistantMessage.classList.add('message', 'assistant-message');
-                assistantMessage.innerHTML = `<img src="https://i.imgur.com/WOwXiLX.png" alt="Assistant Icon"><div>${data.message}</div>`;
+                assistantMessage.innerHTML = `<img src="https://i.imgur.com/WOwXiLX.png" alt="Assistant Icon"><div>${marked(data.message)}</div>`;
                 chatBox.appendChild(assistantMessage);
                 
                 chatBox.scrollTop = chatBox.scrollHeight;
